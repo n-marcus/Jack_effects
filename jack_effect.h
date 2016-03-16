@@ -6,8 +6,9 @@ class Effect
 {
 public:
   Effect(); // constructor for derived class
-  void process_samples(float *inputbuffer,float *outputbuffer, unsigned int nframes);
+  void process(float *inputbuffer,float *outputbuffer, unsigned int nframes);
   void setSamplerate(unsigned int samplerate);
+  void test();
 private:
   unsigned int samplerate;
 };

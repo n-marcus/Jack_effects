@@ -26,8 +26,8 @@ bool connected = false;
 jack_port_t *input_port;
 jack_port_t *output_port;
 
-AM* am = NULL;
-Effect* effect = NULL;
+int numeffects = 1;
+Effect **effects; //making a list of effect objects
 
 
 jack_default_audio_sample_t threshold=0.3;
@@ -43,13 +43,15 @@ int process(jack_nframes_t nframes, void *arg)
   jack_default_audio_sample_t *out =
   (jack_default_audio_sample_t *) jack_port_get_buffer(output_port,nframes);
 
-  am->process(in,out, nframes);
+  //effect->process(in,out, nframes);
+  int i = 0;
+  effects[0]->process(in, out, nframes);
+  effects[0]->test();
+  //effects[i++]->process(out, in, nframes);
   //am->test();
 
   return 0;
 } // process()
-
-
 
 /*
 * shutdown callback may be called by JACK
@@ -60,11 +62,12 @@ void jack_shutdown(void *arg)
 }
 
 
-
 int updatesamplerate(jack_nframes_t nframes, void *arg)
 {
   cout << "Sample rate set to: " << nframes << endl;
-  am->setSamplerate(nframes);
+  for (int i = 0; i < numeffects; i ++) {
+    effects[i]->setSamplerate(nframes);
+  }
 
   return 0;
 }
@@ -73,9 +76,9 @@ int updatesamplerate(jack_nframes_t nframes, void *arg)
 int main()
 {
 
-  am = new AM();
-  effect = new Effect();
 
+  effects = new Effect* [numeffects];
+  effects[0]=new AM();
 
   jack_client_t *client;
   const char **ports;
