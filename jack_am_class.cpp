@@ -24,7 +24,7 @@ void AM::set_modulation_depth(float mod_depth)
 //The jack process function
 void AM::process(float *inputbuffer,float *outputbuffer,unsigned int nframes )
 {
-  cout << "AM class processing samples" << endl;
+  //cout << "AM class processing samples" << endl;
   for(unsigned int x=0; x<nframes; x++)
   {
     outputbuffer[x] = inputbuffer[x] * (sin(mod_phase) * mod_depth);
@@ -33,7 +33,7 @@ void AM::process(float *inputbuffer,float *outputbuffer,unsigned int nframes )
 } // process()
 
 void AM::test() {
-  cout << "Ik ben AM en ik werk!" << endl;;
+  //cout << "Ik ben AM en ik werk!" << endl;;
 }
 
 void AM::setSamplerate(unsigned int samplerate) {

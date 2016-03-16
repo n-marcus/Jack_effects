@@ -6,12 +6,12 @@ class Effect
 {
 public:
   Effect(); // constructor for derived class
-  void process(float *inputbuffer,float *outputbuffer, unsigned int nframes);
+  virtual void process(float *inputbuffer,float *outputbuffer, unsigned int nframes);
   void setSamplerate(unsigned int samplerate);
-  void test();
+  virtual void test();
 protected:
   unsigned int samplerate;
-};
 
+};
 
 #endif // _EFFECT_H_

@@ -1,6 +1,5 @@
 #include "jack_effect.h"
 
-
 Effect::Effect()
 {
   std::cout << "You made an effect class!" << std::endl;
