@@ -3,7 +3,7 @@
 
 Effect::Effect()
 {
-  cout << "You made an effect class!" << endl; 
+  std::cout << "You made an effect class!" << std::endl; 
 } // Effect()
 
 void Effect::process_samples(float *inputbuffer,float *outputbuffer,unsigned int nframes )

@@ -2,8 +2,6 @@
 #define _EFFECT_H_
 #include <iostream>
 
-
-
 class Effect
 {
 public:

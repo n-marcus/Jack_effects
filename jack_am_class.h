@@ -3,9 +3,9 @@
 #include <iostream>
 using namespace std;
 #include <math.h>
+#include "effect.h"
 
-
-class AM
+class AM : public Effect
 {
 public:
   AM(); // constructor for derived class
@@ -16,7 +16,6 @@ public:
 private:
   double mod_depth, mod_freq,mod_phase;
   unsigned int samplerate;
-  //int FRAMESPERBUFFER;
 };
 
 
