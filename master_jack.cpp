@@ -27,7 +27,7 @@ bool connected = false;
 jack_port_t *input_port;
 jack_port_t *output_port;
 
-int numeffects = 2;
+int numeffects = 1;
 Effect **effects; //making a list of effect objects
 
 
@@ -48,7 +48,8 @@ int process(jack_nframes_t nframes, void *arg)
   //int i = 0;
   effects[0]->process(in, out, nframes);
   effects[0]->test();
-  effects[1]->process(out,out, nframes);
+  //effects[1]->process(out,out, nframes);
+  //effects[1]->test();
   //effects[i++]->process(out, in, nframes);
   //am->test();
 
@@ -80,8 +81,8 @@ int main()
 
 
   effects = new Effect*[numeffects];
-  effects[0]=new AM;
-  effects[1]=new AM;
+  effects[0]=new Distortion;
+  //effects[1]=new Distortion;
 
   jack_client_t *client;
   const char **ports;
