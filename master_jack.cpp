@@ -161,7 +161,7 @@ int main()
         if((ports =
           jack_get_ports(client,"MPlayer",0,JackPortIsOutput)) == 0)
           {
-            cout << "Dit is fout! Ik heb niets gevonden" << endl;
+            cout << "Ik zocht MPlayer maar die kan ik niet vinden" << endl;
           }
           else {
             if(jack_connect(client,ports[0], jack_port_name(input_port)))
