@@ -13,4 +13,4 @@ private:
 };
 
 
-#endif // _AM_H
+#endif // _EFFECT_H_

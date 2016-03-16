@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 #include <math.h>
-#include "effect.h"
+#include "jack_effect.h"
 
 class AM : public Effect
 {
