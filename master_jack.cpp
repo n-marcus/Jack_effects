@@ -4,6 +4,7 @@
 #include <math.h>
 #include "jack_am_class.h"
 #include "jack_effect.h"
+#include "jack_distortion.h"
 //#include "jack_fuzz.h"
 
 #include <errno.h>
@@ -26,7 +27,7 @@ bool connected = false;
 jack_port_t *input_port;
 jack_port_t *output_port;
 
-int numeffects = 1;
+int numeffects = 2;
 Effect **effects; //making a list of effect objects
 
 
@@ -47,6 +48,7 @@ int process(jack_nframes_t nframes, void *arg)
   //int i = 0;
   effects[0]->process(in, out, nframes);
   effects[0]->test();
+  effects[1]->process(out,out, nframes);
   //effects[i++]->process(out, in, nframes);
   //am->test();
 
@@ -77,8 +79,9 @@ int main()
 {
 
 
-  effects = new Effect*[1];
+  effects = new Effect*[numeffects];
   effects[0]=new AM;
+  effects[1]=new AM;
 
   jack_client_t *client;
   const char **ports;

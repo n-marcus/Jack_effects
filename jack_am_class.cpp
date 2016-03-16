@@ -34,6 +34,7 @@ void AM::process(float *inputbuffer,float *outputbuffer,unsigned int nframes )
 
 void AM::test() {
   //cout << "Ik ben AM en ik werk!" << endl;;
+  // /cout << "Samplerate van AM = " << samplerate << endl;;
 }
 
 void AM::setSamplerate(unsigned int samplerate) {

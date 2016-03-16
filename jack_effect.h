@@ -7,7 +7,7 @@ class Effect
 public:
   Effect(); // constructor for derived class
   virtual void process(float *inputbuffer,float *outputbuffer, unsigned int nframes);
-  void setSamplerate(unsigned int samplerate);
+  virtual void setSamplerate(unsigned int samplerate);
   virtual void test();
 protected:
   unsigned int samplerate;
