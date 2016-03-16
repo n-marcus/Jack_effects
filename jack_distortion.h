@@ -9,13 +9,14 @@ class Distortion : public Effect
 {
 public:
   Distortion(); // constructor for derived class
-  void set_modulation_depth(float mod_depth);
   void process(float *inputbuffer,float *outputbuffer, unsigned int nframes);
   void test();
   void setSamplerate(unsigned int samplerate);
+  void setFactor(float factor);
 private:
   double mod_depth, mod_freq,mod_phase;
   unsigned int samplerate;
+  float factor;
 };
 
 
