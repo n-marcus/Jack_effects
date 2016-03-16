@@ -37,5 +37,6 @@ void AM::test() {
 }
 
 void AM::setSamplerate(unsigned int samplerate) {
+  cout << "Samplerate of AM set to " << samplerate << endl;
   this->samplerate = samplerate;
 }

@@ -9,7 +9,7 @@ public:
   void process(float *inputbuffer,float *outputbuffer, unsigned int nframes);
   void setSamplerate(unsigned int samplerate);
   void test();
-private:
+protected:
   unsigned int samplerate;
 };
 

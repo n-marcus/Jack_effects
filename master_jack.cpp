@@ -27,7 +27,7 @@ jack_port_t *input_port;
 jack_port_t *output_port;
 
 int numeffects = 1;
-Effect **effects; //making a list of effect objects
+Effect *effects[1]; //making a list of effect objects
 
 
 jack_default_audio_sample_t threshold=0.3;
@@ -44,7 +44,7 @@ int process(jack_nframes_t nframes, void *arg)
   (jack_default_audio_sample_t *) jack_port_get_buffer(output_port,nframes);
 
   //effect->process(in,out, nframes);
-  int i = 0;
+  //int i = 0;
   effects[0]->process(in, out, nframes);
   effects[0]->test();
   //effects[i++]->process(out, in, nframes);
@@ -77,8 +77,8 @@ int main()
 {
 
 
-  effects = new Effect* [numeffects];
-  effects[0]=new AM();
+  //effects = new Effect*[1];
+  effects[0]=new AM;
 
   jack_client_t *client;
   const char **ports;
