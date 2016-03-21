@@ -52,62 +52,62 @@ int process(jack_nframes_t nframes, void *arg)
   //effect->process(in,out, nframes);
   //int i = 0;
   //This is where I try to make a buffer switcher mechanism but it doesn´t work
-  /*
-  if (numeffects % 2 == 0) { //if the number of effects is even, the last effect should use out as both in and output buffer
-  //cout << "Numeffects is even!" << endl;
-  for (int i = 0; i < numeffects; i ++ ) {
-  if (i != numeffects - 1) {
-  effects[i]->process(in, out, nframes);
-  cout << "in to out";
-} else if (i % 2 == 0){
-effects[i]->process(in,out,nframes); // if even, last one should use out for both
-cout << "in to out";
-} else if (i % 2 != 0) {
-effects[i]->process(out,in,nframes);
-cout << "out to in";
-}
-}
-cout << endl;
-} // if even
-else { // if uneven
-//cout << "uneven number of effects" << endl;
-for (int i = 0; i < numeffects; i ++ ) {
-effects[i]->process(in, out, nframes);
-cout << "Uneven: in to out" << endl;
-} // for
-} // if odd
-*/
 
-// this is where Yuri´s buffer switcher comes in
-bool bufFlip=true;
-for (int i=0; i<numeffects; i++)
-{
+  if (numeffects % 2 == 0) { //if the number of effects is even, the last effect should use out as both in and output buffer
+    //cout << "Numeffects is even!" << endl;
+    for (int i = 0; i < numeffects; i ++ ) {
+      if (i == numeffects - 1) { // if this is the last effect in the chain and the length of the chain is even
+        effects[i]->process(in, out, nframes);
+        cout << "in to out";
+      }
+      else if (i % 2 == 1) {
+        effects[i]->process(in,out,nframes);
+        cout << "in to out";
+      }
+      else  if (i % 2 == 0){
+        effects[i]->process(out,in,nframes);
+        cout << "out to in";
+      }
+    }
+    cout << endl;
+  } // if even
+  else { // if uneven
+    //cout << "uneven number of effects" << endl;
+    for (int i = 0; i < numeffects; i ++ ) {
+      effects[i]->process(in, out, nframes);
+      cout << "Uneven: in to out" << endl;
+    } // for
+  } // if odd
+
+  /*
+  // this is where Yuri´s buffer switcher comes in
+  bool bufFlip=true;
+  for (int i=0; i<numeffects; i++)
+  {
   if (bufFlip)
   {
-    effects[i]->process(in, out, nframes);
-    bufFlip=false;
-  }
-  else
-  {
-    effects[i]->process(out, in, nframes);
-    bufFlip=true;
-  }
+  effects[i]->process(in, out, nframes);
+  bufFlip=false;
+}
+else
+{
+effects[i]->process(out, in, nframes);
+bufFlip=true;
+}
 } // for nrofEffects
 
 if (bufFlip)
 {
-  //audiostream.write(in);
-  bufFlip=true;
+//audiostream.write(in);
+bufFlip=true;
 }
 else{
-  ///audiostream.write(out);
-  in = out;
-  bufFlip=true;
+///audiostream.write(out);
+in = out;
+bufFlip=true;
 }
 //end of yuri's buffer switcher
-//effects[i++]->process(out, in, nframes);
-//am->test();
-
+*/
 return 0;
 } // process()
 
