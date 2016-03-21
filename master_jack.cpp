@@ -51,10 +51,31 @@ int process(jack_nframes_t nframes, void *arg)
 
   //effect->process(in,out, nframes);
   //int i = 0;
-  effects[0]->process(in, out, nframes);
-  effects[0]->test();
-  effects[1]->process(out,out, nframes);
-  effects[1]->test();
+  if (numeffects % 2 == 0) { //if the number of effects is even, the last effect should use out as both in and output buffer
+    //cout << "Numeffects is even!" << endl;
+    for (int i = 0; i < numeffects; i ++ ) {
+      if (i != numeffects - 1) {
+        effects[i]->process(in, out, nframes);
+        cout << "in to out";
+      } else if (i % 2 == 0){
+        effects[i]->process(in,out,nframes); // if even, last one should use out for both
+        cout << "in to out";
+      } else if (i % 2 != 0) {
+        effects[i]->process(out,in,nframes);
+        cout << "out to in";
+      }
+    }
+    cout << endl;
+  } // if even
+  else { // if uneven
+    //cout << "uneven number of effects" << endl;
+    for (int i = 0; i < numeffects; i ++ ) {
+        effects[i]->process(in, out, nframes);
+        cout << "Uneven: in to out" << endl;
+    } // for
+  } // if odd
+
+
   //effects[i++]->process(out, in, nframes);
   //am->test();
 
@@ -88,7 +109,6 @@ int main()
   cout << "How many effects do you want to create?" << endl;
   cin >> numeffects;
   cout << "You entered " << numeffects << "number of effects!" << endl;
-
   effects = new Effect*[numeffects];
   for (int i = 0; i < numeffects; i ++) {
     int effectIndex = 0;
@@ -97,6 +117,7 @@ int main()
     cout << "0 = AM modulator" << endl;
     cout << "1 = Distortion" << endl;
     cin >> effectIndex;
+
     if (effectIndex >= 0 && effectIndex < 2 ) {
       cout << endl;
       cout << "Effect number " << i << " will be of type " << effectIndex << endl;
@@ -113,7 +134,7 @@ int main()
       effects[i] = new Distortion;
     } else {
       cout << "This should not happen, help! " << endl;
-     }
+    }
     //effects[i]=new AM;
     //effects[1]=new Distortion;
   }
