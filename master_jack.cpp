@@ -57,16 +57,20 @@ int process(jack_nframes_t nframes, void *arg)
     //cout << "Numeffects is even!" << endl;
     for (int i = 0; i < numeffects; i ++ ) {
       if (i == numeffects - 1) { // if this is the last effect in the chain and the length of the chain is even
+        effects[i]->process(out, out, nframes);
+        cout << "out to out";
+      }
+      else if (i == 0){ //the first effect in the chain
         effects[i]->process(in, out, nframes);
-        cout << "in to out";
+        cout <<"first one, in to out";
       }
-      else if (i % 2 == 1) {
-        effects[i]->process(in,out,nframes);
-        cout << "in to out";
-      }
-      else  if (i % 2 == 0){
+      else if (i % 2 == 1) { //if i is uneven
         effects[i]->process(out,in,nframes);
         cout << "out to in";
+      }
+      else  if (i % 2 == 0){ //if i is even
+        effects[i]->process(in,out,nframes);
+        cout << "in to out";
       }
     }
     cout << endl;
