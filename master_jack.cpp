@@ -78,9 +78,20 @@ int process(jack_nframes_t nframes, void *arg)
   else { // if uneven
     //cout << "uneven number of effects" << endl;
     for (int i = 0; i < numeffects; i ++ ) {
-      effects[i]->process(in, out, nframes);
-      cout << "Uneven: in to out" << endl;
+      if (i == 0 ) {
+        cout << "First one, in to out ";
+        effects[i]->process(in, out, nframes);
+      }
+      else if (i % 2 == 1) { // if the effect index is uneven
+        effects[i]->process(out, in, nframes);
+        cout << " out to in " << i;
+      }
+      else if (i % 2 == 0) {
+        effects[i]->process(in, out, nframes);
+        cout << " in to out ";
+      }
     } // for
+    cout << endl;
   } // if odd
 
   /*
