@@ -24,10 +24,15 @@ float mod_freq=20.0;
 float mod_phase=0;
 bool connected = false;
 
+int numeffects = 2;
+
+
+
 jack_port_t *input_port;
 jack_port_t *output_port;
 
-int numeffects = 1;
+
+
 Effect **effects; //making a list of effect objects
 
 
@@ -48,8 +53,8 @@ int process(jack_nframes_t nframes, void *arg)
   //int i = 0;
   effects[0]->process(in, out, nframes);
   effects[0]->test();
-  //effects[1]->process(out,out, nframes);
-  //effects[1]->test();
+  effects[1]->process(out,out, nframes);
+  effects[1]->test();
   //effects[i++]->process(out, in, nframes);
   //am->test();
 
@@ -78,11 +83,31 @@ int updatesamplerate(jack_nframes_t nframes, void *arg)
 
 int main()
 {
-
+  cout << "Hello and welcome!" << endl;
+  cout << "How many effects do you want to create?" << endl;
+  cin >> numeffects;
+  cout << "You entered " << numeffects << "number of effects!" << endl;
 
   effects = new Effect*[numeffects];
-  effects[0]=new Distortion;
-  //effects[1]=new Distortion;
+  for (int i = 0; i < numeffects; i ++) {
+    int effectIndex = 0;
+    cout << "What do you want the " << i << "-th effect to be?" << endl;
+    cout << "0 = AM modulator" << endl;
+    cout << "1 = Distortion" << endl;
+    cin >> effectIndex;
+    if (effectIndex >= 0 && effectIndex < 2 ) {
+      cout << endl;
+      cout << "Effect number " << i << " will be of type " << effectIndex << endl;
+    } else {
+      cout << "You entered an invalid number, that's not so nice of you. " << endl;
+      cout << "I´ll just pretend I didn´t notice and move on and choose a random effect for you! " << endl;
+      effectIndex = rand() % 1;
+      cout << "I picked effect number " << effectIndex << " for you, you're welcome!" << endl;
+      cout << endl;
+    }
+    //effects[i]=new AM;
+    //effects[1]=new Distortion;
+  }
 
   jack_client_t *client;
   const char **ports;

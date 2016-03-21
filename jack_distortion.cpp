@@ -7,7 +7,8 @@ using namespace std;
 Distortion::Distortion()
 {
   cout << "Youve made a Distortion object!" << endl;
-  this->factor = 5;
+  cout << "How much Distortion do you want?" << endl;
+  cin >> factor;
 }
 
 

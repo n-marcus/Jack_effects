@@ -14,7 +14,6 @@ public:
   void setSamplerate(unsigned int samplerate);
   void setFactor(float factor);
 private:
-  double mod_depth, mod_freq,mod_phase;
   unsigned int samplerate;
   float factor;
 };
