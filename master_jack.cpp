@@ -83,6 +83,7 @@ int updatesamplerate(jack_nframes_t nframes, void *arg)
 
 int main()
 {
+  //Now lets see what the user wants to do today
   cout << "Hello and welcome!" << endl;
   cout << "How many effects do you want to create?" << endl;
   cin >> numeffects;
@@ -91,6 +92,7 @@ int main()
   effects = new Effect*[numeffects];
   for (int i = 0; i < numeffects; i ++) {
     int effectIndex = 0;
+
     cout << "What do you want the " << i << "-th effect to be?" << endl;
     cout << "0 = AM modulator" << endl;
     cout << "1 = Distortion" << endl;
@@ -98,13 +100,20 @@ int main()
     if (effectIndex >= 0 && effectIndex < 2 ) {
       cout << endl;
       cout << "Effect number " << i << " will be of type " << effectIndex << endl;
-    } else {
+    } else { // if you dont enter a nice number that has an effect linked to it
       cout << "You entered an invalid number, that's not so nice of you. " << endl;
       cout << "I´ll just pretend I didn´t notice and move on and choose a random effect for you! " << endl;
       effectIndex = rand() % 1;
       cout << "I picked effect number " << effectIndex << " for you, you're welcome!" << endl;
       cout << endl;
     }
+    if (effectIndex == 0) {
+      effects[i] = new AM;
+    } else if (effectIndex == 1) {
+      effects[i] = new Distortion;
+    } else {
+      cout << "This should not happen, help! " << endl;
+     }
     //effects[i]=new AM;
     //effects[1]=new Distortion;
   }
