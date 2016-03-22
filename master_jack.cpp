@@ -49,80 +49,48 @@ int process(jack_nframes_t nframes, void *arg)
   jack_default_audio_sample_t *out =
   (jack_default_audio_sample_t *) jack_port_get_buffer(output_port,nframes);
 
-  //effect->process(in,out, nframes);
-  //int i = 0;
-  //This is where I try to make a buffer switcher mechanism but it doesn´t work
+  //This is where I try to make a buffer switcher mechanism but it finally works!
 
   if (numeffects % 2 == 0) { //if the number of effects is even, the last effect should use out as both in and output buffer
     //cout << "Numeffects is even!" << endl;
     for (int i = 0; i < numeffects; i ++ ) {
       if (i == numeffects - 1) { // if this is the last effect in the chain and the length of the chain is even
         effects[i]->process(out, out, nframes);
-        cout << "out to out";
+        //cout << "out to out";
       }
       else if (i == 0){ //the first effect in the chain
         effects[i]->process(in, out, nframes);
-        cout <<"first one, in to out";
+        //cout <<"first one, in to out";
       }
       else if (i % 2 == 1) { //if i is uneven
         effects[i]->process(out,in,nframes);
-        cout << "out to in";
+        //cout << "out to in";
       }
       else  if (i % 2 == 0){ //if i is even
         effects[i]->process(in,out,nframes);
-        cout << "in to out";
+        //cout << "in to out";
       }
     }
-    cout << endl;
+    //cout << endl;
   } // if even
   else { // if uneven
     //cout << "uneven number of effects" << endl;
     for (int i = 0; i < numeffects; i ++ ) {
       if (i == 0 ) {
-        cout << "First one, in to out ";
+        //cout << "First one, in to out ";
         effects[i]->process(in, out, nframes);
       }
       else if (i % 2 == 1) { // if the effect index is uneven
         effects[i]->process(out, in, nframes);
-        cout << " out to in " << i;
+        //cout << " out to in " << i;
       }
       else if (i % 2 == 0) {
         effects[i]->process(in, out, nframes);
-        cout << " in to out ";
+        //cout << " in to out ";
       }
     } // for
-    cout << endl;
+    //cout << endl;
   } // if odd
-
-  /*
-  // this is where Yuri´s buffer switcher comes in
-  bool bufFlip=true;
-  for (int i=0; i<numeffects; i++)
-  {
-  if (bufFlip)
-  {
-  effects[i]->process(in, out, nframes);
-  bufFlip=false;
-}
-else
-{
-effects[i]->process(out, in, nframes);
-bufFlip=true;
-}
-} // for nrofEffects
-
-if (bufFlip)
-{
-//audiostream.write(in);
-bufFlip=true;
-}
-else{
-///audiostream.write(out);
-in = out;
-bufFlip=true;
-}
-//end of yuri's buffer switcher
-*/
 return 0;
 } // process()
 
