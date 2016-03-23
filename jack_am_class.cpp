@@ -16,9 +16,16 @@ AM::AM()
   cin >> mod_depth;
 }
 
-void AM::set_modulation_depth(float mod_depth)
+void AM::set_modulation_depth(int mod_depth)
 {
+  cout << "New mod_depth = " << mod_depth << endl;
   this->mod_depth=mod_depth;
+}
+
+void AM::set_modulation_freq(int mod_freq)
+{
+  cout << "New mod_freq = " << mod_freq << endl;
+  this->mod_freq = mod_freq;
 }
 
 //The jack process function

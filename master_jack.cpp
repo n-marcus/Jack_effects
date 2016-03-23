@@ -5,7 +5,7 @@
 #include "jack_am_class.h"
 #include "jack_effect.h"
 #include "jack_distortion.h"
-//#include "jack_fuzz.h"
+#include "osc.h"
 
 #include <errno.h>
 #include <unistd.h>
@@ -14,6 +14,9 @@
 
 #include <jack/jack.h>
 #include <jack/midiport.h>
+
+//#include <lo/lo.h>
+//#include <lo/lo_cpp.h>
 
 #define BUFFERSIZE 44100
 
@@ -33,7 +36,9 @@ jack_port_t *output_port;
 
 
 
+
 Effect **effects; //making a list of effect objects
+OSC osc;
 
 
 jack_default_audio_sample_t threshold=0.3;
@@ -49,8 +54,11 @@ int process(jack_nframes_t nframes, void *arg)
   jack_default_audio_sample_t *out =
   (jack_default_audio_sample_t *) jack_port_get_buffer(output_port,nframes);
 
-  //This is where I try to make a buffer switcher mechanism but it finally works!
 
+
+  ////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////Switching buffers ///////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
   if (numeffects % 2 == 0) { //if the number of effects is even, the last effect should use out as both in and output buffer
     //cout << "Numeffects is even!" << endl;
     for (int i = 0; i < numeffects; i ++ ) {
@@ -117,6 +125,10 @@ int updatesamplerate(jack_nframes_t nframes, void *arg)
 int main()
 {
   //Now lets see what the user wants to do today
+
+  //////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////         setup and user input     ////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////
   cout << "Hello and welcome!" << endl;
   cout << "How many effects do you want to create?" << endl;
   cin >> numeffects;
@@ -147,9 +159,14 @@ int main()
     } else {
       cout << "This should not happen, help! " << endl;
     }
-    //effects[i]=new AM;
-    //effects[1]=new Distortion;
   }
+
+  ////////////////////////////////////////////////////////////
+  ////////////////////   starting osc     ////////////////////
+  ////////////////////////////////////////////////////////////
+
+  std::string port = std::to_string(12001);
+  osc.init(port);
 
   jack_client_t *client;
   const char **ports;
@@ -228,9 +245,13 @@ int main()
     * Playback is already running now, let's change some sound parameters
     */
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////What happens when the program is running already ///////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
     while(1) {
       usleep(1000000);
-      cout << "tickje!" << endl;
+      cout << "Update" << endl;
       if (!connected) {
         if((ports =
           jack_get_ports(client,"MPlayer",0,JackPortIsOutput)) == 0)
